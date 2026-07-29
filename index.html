@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📦 Inventory Management System</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <div class="app">
+    <header class="topbar">
+      <h1>📦 Inventory<span>Hub</span></h1>
+      <div class="topbar-right">
+        <span id="welcomeUser" class="welcome-text"></span>
+        <button class="btn-add" onclick="openModal()">+ Add Item</button>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <section class="stats">
+      <div class="stat-card card-purple">
+        <p class="stat-label">Total Items</p>
+        <h2 id="statTotalItems">0</h2>
+      </div>
+      <div class="stat-card card-blue">
+        <p class="stat-label">Total Quantity</p>
+        <h2 id="statTotalQty">0</h2>
+      </div>
+      <div class="stat-card card-green">
+        <p class="stat-label">Inventory Value</p>
+        <h2 id="statTotalValue">₹0</h2>
+      </div>
+      <div class="stat-card card-orange">
+        <p class="stat-label">Low Stock</p>
+        <h2 id="statLowStock">0</h2>
+      </div>
+    </section>
+
+    <section class="charts-section">
+      <div class="chart-card">
+        <h3>📊 Category Distribution</h3>
+        <canvas id="categoryChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>📈 Stock Levels</h3>
+        <canvas id="stockChart"></canvas>
+      </div>
+    </section>
+
+    <section class="controls">
+      <input type="text" id="searchBox" placeholder="🔍 Search item or category..." onkeyup="renderItems()">
+    </section>
+
+    <section class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="itemsTableBody">
+        </tbody>
+      </table>
+      <p id="emptyMsg" class="empty-msg" style="display:none;">No items found. Click "Add Item" to get started 🚀</p>
+    </section>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2 id="modalTitle">Add New Item</h2>
+      <input type="hidden" id="itemId">
+
+      <label>Item Name</label>
+      <input type="text" id="itemName" placeholder="e.g. Wireless Mouse">
+
+      <label>Category</label>
+      <input type="text" id="itemCategory" placeholder="e.g. Electronics">
+
+      <label>Quantity</label>
+      <input type="number" id="itemQuantity" placeholder="e.g. 25">
+
+      <label>Price (₹)</label>
+      <input type="number" id="itemPrice" placeholder="e.g. 499">
+
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-save" onclick="saveItem()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

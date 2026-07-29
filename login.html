@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - InventoryHub</title>
+<link rel="stylesheet" href="auth-style.css">
+</head>
+<body>
+  <div class="auth-box">
+    <h1>📦 Inventory<span>Hub</span></h1>
+    <p class="subtitle">Welcome back! Please login.</p>
+
+    <label>Username</label>
+    <input type="text" id="username" placeholder="Enter username">
+
+    <label>Password</label>
+    <input type="password" id="password" placeholder="Enter password">
+
+    <button onclick="login()">Login</button>
+    <p class="switch-link">Don't have an account? <a href="register.html">Register here</a></p>
+    <p id="errorMsg" class="error-msg"></p>
+  </div>
+
+<script>
+async function login() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const errorMsg = document.getElementById('errorMsg');
+
+  if (!username || !password) {
+    errorMsg.textContent = 'Please fill both fields';
+    return;
+  }
+
+  try {
+    const res = await fetch('http://localhost:5000/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      errorMsg.textContent = data.message;
+      return;
+    }
+
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('username', data.username);
+    window.location.href = 'index.html';
+  } catch (err) {
+    errorMsg.textContent = 'Server not reachable. Is backend running?';
+  }
+}
+</script>
+</body>
+</html>
